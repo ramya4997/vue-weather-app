@@ -22,6 +22,13 @@ export default {
       return state.cities.slice(0, 9);
     }
   },
-  mutations: {},
+  mutations: {
+    selectCity(state, city) {
+      //remove the selected city from the cities array
+      state.cities = state.cities.filter(c => c.name != city.name);
+      //add city to top of cities array
+      state.cities.unshift(city);
+    }
+  },
   actions: {}
 };

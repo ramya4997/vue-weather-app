@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     navigateToWeatherDetails(city) {
+      this.$store.commit("cityStore/selectCity", city);
       this.$router.push(`/city/${city.state}/${city.name}`);
     }
   }
