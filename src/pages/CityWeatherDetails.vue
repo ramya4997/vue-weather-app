@@ -1,33 +1,48 @@
 <template>
   <v-container class="fill-height weather-info">
-    <v-row class="fill-height">
+    <v-progress-circular
+      class="mx-auto"
+      v-if="fetchingWeather"
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+
+    <v-row v-if="!fetchingWeather && !error" class="fill-height">
       <temperature></temperature>
       <weather-details></weather-details>
     </v-row>
+    <v-alert v-if="error" border="right" colored-border type="error"
+      >{{ error }}
+    </v-alert>
   </v-container>
 </template>
 
 <script>
 import Temperature from "../components/CityWeatherDetails/Temperature.vue";
 import WeatherDetails from "../components/CityWeatherDetails/WeatherDetails.vue";
+import { mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      test: false
+    };
+  },
+  methods: {
+    toggleTest() {
+      this.$store.commit("weatherStore/setLoading", !this.loadingWeather);
+    }
+  },
   components: {
     temperature: Temperature,
     weatherDetails: WeatherDetails
   },
   created() {
-    console.log(this.$route.params.name);
+    const cityName = this.$route.params.name;
+    this.$store.dispatch("weatherStore/fetchWeather", cityName);
+  },
+  computed: {
+    ...mapState("weatherStore", ["fetchingWeather", "error"])
   }
 };
 </script>
-
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bangers&display=swap");
-
-.temperature {
-  font-family: "Archivo Black", sans-serif;
-  font-family: "Bangers", cursive;
-  font-size: 15rem;
-}
-</style>

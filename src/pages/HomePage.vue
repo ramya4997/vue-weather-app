@@ -38,7 +38,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["initialCities"])
+    ...mapGetters("cityStore", ["initialCities"])
   },
   methods: {
     navigateToWeatherDetails(city) {

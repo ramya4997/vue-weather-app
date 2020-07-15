@@ -7,20 +7,15 @@
     </v-row>
     <v-row class="fill-height">
       <v-col cols="12" sm="6" align-self="center" class="d-flex">
-        <p class="mx-auto temperature">
-          -4°C
-        </p>
+        <p class="mx-auto temperature">{{ weather.temperature }}°C</p>
       </v-col>
       <v-col cols="12" sm="6" align-self="center" class="d-flex">
         <div class="mx-auto ">
-          <v-img
-            class="mx-auto"
-            src="http://openweathermap.org/img/wn/10d@2x.png"
-            height="100"
-            width="100"
-          ></v-img>
-
-          <p class="font-weight-bold" style="font-size: 4rem">
+          <v-row align="center">
+            <v-img :src="weather.iconUrl" height="100" width="100"></v-img>
+            <span>{{ weather.type }}</span>
+          </v-row>
+          <p class="font-weight-bold" style="font-size: 3vw ">
             {{ $route.params.name }}
           </p>
           <p style="font-size: 1.2rem" class="grey--text">
@@ -31,3 +26,22 @@
     </v-row>
   </v-col>
 </template>
+
+<script>
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState("weatherStore", ["weather"])
+  }
+};
+</script>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bangers&display=swap");
+
+.temperature {
+  font-family: "Archivo Black", sans-serif;
+  font-family: "Bangers", cursive;
+  font-size: 12vw;
+}
+</style>
