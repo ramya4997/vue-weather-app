@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="background">
     <!-- <v-img src="../assets/weather.jpg"></v-img> -->
     <v-row justify="center">
       <p class="logo1">Weather</p>
@@ -18,8 +18,16 @@
         v-for="city in initialCities"
         :key="city.name"
       >
-        <v-card elevation="0" outlined>
-          <v-card-text class="black--text">{{ city.name }}</v-card-text>
+        <v-card
+          v-ripple
+          elevation="0"
+          outlined
+          @click="navigateToWeatherDetails(city)"
+        >
+          <v-card-text
+            ><span class="black--text">{{ city.name }}</span>
+            <span class="grey--text">, {{ city.state }}</span>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -31,6 +39,11 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters(["initialCities"])
+  },
+  methods: {
+    navigateToWeatherDetails(city) {
+      this.$router.push(`/city/${city.state}/${city.name}`);
+    }
   }
 };
 </script>
@@ -48,5 +61,8 @@ export default {
   font-family: "Anton", sans-serif;
   font-family: "Arvo", serif;
   font-size: 4vw;
+}
+.background {
+  background-color: #fbf9f9;
 }
 </style>
