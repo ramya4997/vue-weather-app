@@ -1,13 +1,12 @@
 <template>
   <v-container class="background">
-    <!-- <v-img src="../assets/weather.jpg"></v-img> -->
     <v-row justify="center">
       <p class="logo1">Weather</p>
       <p class="logo2">Report</p>
     </v-row>
     <v-row>
       <v-col xs="12" sm="6" offset-sm="3">
-        <v-text-field outlined placeholder="Enter a city name"></v-text-field>
+        <search-input></search-input>
       </v-col>
     </v-row>
     <v-row>
@@ -35,11 +34,17 @@
 </template>
 
 <script>
+import SearchInput from "../components/Homepage/SearchInput.vue";
 import { mapGetters } from "vuex";
 export default {
+  components: {
+    searchInput: SearchInput
+  },
+
   computed: {
     ...mapGetters("cityStore", ["initialCities"])
   },
+
   methods: {
     navigateToWeatherDetails(city) {
       this.$store.commit("cityStore/selectCity", city);
