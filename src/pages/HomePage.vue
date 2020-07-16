@@ -30,26 +30,43 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row justify="center">
+      <v-pagination
+        circle
+        :length="paginationLength"
+        v-model="page"
+      ></v-pagination>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import SearchInput from "../components/Homepage/SearchInput.vue";
-import { mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
   components: {
     searchInput: SearchInput
   },
 
   computed: {
-    ...mapGetters("cityStore", ["initialCities"])
+    ...mapState("cityStore", ["currentPage"]),
+    ...mapGetters("cityStore", ["initialCities", "paginationLength"]),
+    page: {
+      get() {
+        return this.currentPage;
+      },
+      set(value) {
+        this.goToPage(value);
+      }
+    }
   },
 
   methods: {
     navigateToWeatherDetails(city) {
       this.$store.commit("cityStore/selectCity", city);
       this.$router.push(`/city/${city.state}/${city.name}`);
-    }
+    },
+    ...mapMutations("cityStore", ["goToPage"])
   }
 };
 </script>

@@ -20,12 +20,20 @@ export default {
     ],
     searchResults: [],
     fetchingSearchResult: false,
-    searchError: null
+    searchError: null,
+    currentPage: 1
   }),
   getters: {
+    paginationLength(state) {
+      //number of pages with 10 cities per page
+      return Math.ceil(state.cities.length / 10);
+    },
     initialCities(state) {
       //shows only first 10 cities
-      return state.cities.slice(0, 9);
+      return state.cities.slice(
+        (state.currentPage - 1) * 10,
+        (state.currentPage - 1) * 10 + 10
+      );
     }
   },
   mutations: {
@@ -43,6 +51,10 @@ export default {
     },
     setError(state, error) {
       state.searchError = error;
+    },
+    goToPage(state, pageNumber) {
+      state.currentPage = pageNumber;
+      console.log(state.currentPage);
     }
   },
   actions: {
